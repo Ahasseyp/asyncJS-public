@@ -1,8 +1,13 @@
-function sleep(timeout) { }
-
-if (require.main === module) {
-    const test0 = require("../test/test0");
-    test0(sleep);
-} else {
-    module.exports = { sleep };
+function sleep(time) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve()
+        }, time)
+    })
 }
+
+const time = 10000;
+
+sleep(time).then(() => {
+    console.log(`This is executd after ${time/1000} second`)
+})
