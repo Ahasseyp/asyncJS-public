@@ -1,4 +1,10 @@
-function sequence(asyncTasks) { }
+function sequence(asyncTasks) {
+    return new Promise(() => {
+        for (const asyncTask of asyncTasks) {
+            return asyncTask();
+        }
+    });
+}
 
 if (require.main === module) {
     const test2 = require("../test/test2");
