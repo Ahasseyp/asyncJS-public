@@ -1,15 +1,20 @@
 function asyncInParallel(work, threads) {
     return new Promise((resolve) => {
+        let initalLength = work.length;
+        let finalData = [];
+
         let nextWork = (work) => {
             if (work.length > 0) {
                 let currentWork = work.shift();
                 if (currentWork) {
                     currentWork().then((data) => {
-                        console.log(data);
+                        finalData.push(data);
                         nextWork(work);
                     });
-                } else {
-                    resolve(currentWork());
+                }
+            } else {
+                if (initalLength === finalData.length) {
+                    resolve(finalData);
                 }
             }
         };
@@ -18,7 +23,7 @@ function asyncInParallel(work, threads) {
 
         for (const currentWork of initialWork) {
             currentWork().then((data) => {
-                console.log(data);
+                finalData.push(data);
                 if (work.length > 0) {
                     nextWork(work);
                 }
